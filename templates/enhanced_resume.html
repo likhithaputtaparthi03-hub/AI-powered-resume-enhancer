@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ selected_name or "Professional" }} Resume</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 30px 12px;
+    background: #eef2f7;
+    color: #202938;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container { max-width: 900px; margin: auto; }
+
+.topbar, .buttons { text-align: center; margin-bottom: 24px; }
+
+.resume-paper {
+    background: white;
+    max-width: 850px;
+    margin: auto;
+    min-height: 800px;
+    padding: 48px;
+    box-shadow: 0 5px 25px #00000015;
+}
+
+/* PROFESSIONAL */
+.resume-paper.professional {
+    border-top: 9px solid #172b4d;
+    font-family: Arial, sans-serif;
+}
+.professional .resume-title {
+    color: #172b4d;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+.professional .resume-subtitle {
+    text-align: center;
+    color: #64748b;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #172b4d;
+}
+
+/* MODERN */
+.resume-paper.modern {
+    border-left: 12px solid #2563eb;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(90deg, #eff6ff 0 28%, white 28% 100%);
+}
+.modern .resume-title {
+    color: #1d4ed8;
+    text-align: left;
+    font-size: 32px;
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 12px;
+}
+.modern .resume-subtitle {
+    color: #64748b;
+    text-align: left;
+}
+
+/* MINIMAL */
+.resume-paper.minimal {
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+    font-family: Georgia, "Times New Roman", serif;
+}
+.minimal .resume-title {
+    color: #222;
+    text-align: left;
+    font-size: 29px;
+    font-weight: normal;
+}
+.minimal .resume-subtitle {
+    color: #777;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 18px;
+}
+
+.resume-subtitle {
+    font-size: 12px;
+    margin: 8px 0 25px;
+}
+
+.section { margin: 22px 0; }
+
+.section h2 {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 9px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #cbd5e1;
+    color: #263b59;
+}
+
+.modern .section h2 { color: #1d4ed8; border-color: #93c5fd; }
+.minimal .section h2 { color: #333; font-size: 13px; }
+
+.resume-content {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.65;
+    font-size: 14px;
+    color: #333;
+}
+
+.empty { text-align: center; color: #777; padding: 30px; }
+
+.button {
+    display: inline-block;
+    padding: 12px 18px;
+    margin: 6px;
+    border: 0;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+.download { background: #172b4d; color: white; }
+.template-btn { background: #2563eb; color: white; }
+.home { background: #64748b; color: white; }
+
+@media (max-width: 650px) {
+    .resume-paper { padding: 25px 20px; }
+    .modern .resume-paper { background: white; }
+    .resume-title { font-size: 24px !important; }
+}
+
+@media print {
+    body { background: white; padding: 0; }
+    .topbar, .buttons { display: none; }
+    .resume-paper { box-shadow: none; margin: 0; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div class="topbar">
+    <h1>✨ AI Enhanced Resume</h1>
+    <p>Your resume has been enhanced and professionally formatted.</p>
+</div>
+
+<div class="resume-paper {{ selected_template or 'professional' }}">
+
+    <div class="resume-title">
+        {{ resume_info.get("name", "") if resume_info else "Resume" }}
+    </div>
+
+    <div class="resume-subtitle">
+        {{ resume_info.get("email", "") if resume_info else "" }}
+        {% if resume_info and resume_info.get("phone") %}
+            {% if resume_info.get("email") %} | {% endif %}
+            {{ resume_info.get("phone") }}
+        {% endif %}
+        {% if resume_info and resume_info.get("linkedin") %}
+            | {{ resume_info.get("linkedin") }}
+        {% endif %}
+    </div>
+
+    {% if enhanced_sections %}
+        {% for section, content in enhanced_sections.items() %}
+        <div class="section">
+            <h2>{{ section }}</h2>
+            <div class="resume-content">{{ content }}</div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <p>No resume sections were detected.</p>
+            <p>Please return and analyze your resume again.</p>
+        </div>
+    {% endif %}
+
+</div>
+
+<div class="buttons">
+
+    <form action="/template-selection" method="POST" style="display:inline">
+        <input type="hidden" name="original_text" value="{{ original_text }}">
+        {% for section, content in (enhanced_sections or {}).items() %}
+            <input type="hidden" name="title_{{ loop.index }}" value="{{ section }}">
+            <input type="hidden" name="section_{{ loop.index }}" value="{{ content }}">
+        {% endfor %}
+        <button class="button template-btn" type="submit">
+            🎨 Choose Resume Template
+        </button>
+    </form>
+
+    <form action="/download-complete-word" method="POST" style="display:inline">
+        <input type="hidden" name="selected_template"
+               value="{{ selected_template or 'professional' }}">
+        {% for section, content in (enhanced_sections or {}).items() %}
+            <input type="hidden" name="title_{{ loop.index }}" value="{{ section }}">
+            <input type="hidden" name="section_{{ loop.index }}" value="{{ content }}">
+        {% endfor %}
+        <button class="button download" type="submit">📝 Download Word Resume</button>
+    </form>
+
+    <form action="/download-complete-pdf" method="POST" style="display:inline">
+        <input type="hidden" name="selected_template"
+               value="{{ selected_template or 'professional' }}">
+        {% for section, content in (enhanced_sections or {}).items() %}
+            <input type="hidden" name="title_{{ loop.index }}" value="{{ section }}">
+            <input type="hidden" name="section_{{ loop.index }}" value="{{ content }}">
+        {% endfor %}
+        <button class="button download" type="submit">📄 Download PDF Resume</button>
+    </form>
+
+    <a href="/" class="button home">← Back to Home</a>
+</div>
+
+</div>
+</body>
+</html>

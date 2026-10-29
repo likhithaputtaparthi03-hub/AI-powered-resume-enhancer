@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Resume</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #222;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #666;
+        }
+
+        .template-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            background: #ede9fe;
+            color: #6d28d9;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .form-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 21px;
+        }
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            padding: 12px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .section-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .section-card h3 {
+            margin-top: 0;
+            color: #111827;
+            font-size: 18px;
+        }
+
+        .section-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            margin-right: 7px;
+            font-size: 13px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 13px 22px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .template-btn {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.88;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 95%;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-card {
+                padding: 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>✏️ Edit Your Resume</h1>
+
+        <p>
+            Update your resume information and save your changes.
+        </p>
+
+        <div class="template-badge">
+            Selected Template:
+            {{ selected_template|default('professional') }}
+        </div>
+
+    </div>
+
+
+    <!-- MAIN FORM -->
+
+    <form action="/save-edited-resume"
+          method="POST">
+
+
+        <!-- =====================================================
+             HIDDEN DATA
+        ====================================================== -->
+
+        <input type="hidden"
+               name="selected_template"
+               value="{{ selected_template|default('professional') }}">
+
+
+        <!-- =====================================================
+             CONTACT INFORMATION
+        ====================================================== -->
+
+        <div class="form-card">
+
+            <h2>👤 Personal Information</h2>
+
+            <div class="contact-grid">
+
+                <div class="field">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ resume_info.name|default('') }}"
+                        placeholder="Your Name">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ resume_info.email|default('') }}"
+                        placeholder="yourname@email.com">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="phone">
+                        Phone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        value="{{ resume_info.phone|default('') }}"
+                        placeholder="+91 XXXXX XXXXX">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="linkedin">
+                        LinkedIn
+                    </label>
+
+                    <input
+                        type="text"
+                        id="linkedin"
+                        name="linkedin"
+                        value="{{ resume_info.linkedin|default('') }}"
+                        placeholder="linkedin.com/in/yourname">
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="github">
+                        GitHub
+                    </label>
+
+                    <input
+                        type="text"
+                        id="github"
+                        name="github"
+                        value="{{ resume_info.github|default('') }}"
+                        placeholder="github.com/yourname">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             RESUME SECTIONS
+        ====================================================== -->
+
+        <div class="form-card">
+
+            <h2>📄 Resume Content</h2>
+
+
+            {% set section_count = 0 %}
+
+
+            {% for section_name, section_content in sections.items() %}
+
+                {% set section_count = section_count + 1 %}
+
+                <div class="section-card">
+
+                    <h3>
+
+                        <span class="section-number">
+                            {{ loop.index }}
+                        </span>
+
+                        {{ section_name }}
+
+                    </h3>
+
+
+                    <div class="field">
+
+                        <label for="section_{{ loop.index }}">
+                            {{ section_name }} Content
+                        </label>
+
+                        <textarea
+                            id="section_{{ loop.index }}"
+                            name="section_{{ loop.index }}"
+                            placeholder="Enter {{ section_name }} content...">{{ section_content }}</textarea>
+
+                    </div>
+
+
+                    <!-- Keep section name -->
+                    <input
+                        type="hidden"
+                        name="section_name_{{ loop.index }}"
+                        value="{{ section_name }}">
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- =====================================================
+             BUTTONS
+        ====================================================== -->
+
+        <div class="buttons">
+
+            <button
+                type="submit"
+                class="save-btn">
+
+                💾 Save Changes
+
+            </button>
+
+
+            <button
+                type="submit"
+                formaction="/template-selection"
+                class="template-btn">
+
+                🎨 Change Template
+
+            </button>
+
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="history.back()">
+
+                ← Cancel
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

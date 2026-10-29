@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Choose Resume Template</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 35px;
+        }
+
+        .templates {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.10);
+            transition: 0.2s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .template-preview {
+            height: 360px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background: white;
+        }
+
+        /* PROFESSIONAL PREVIEW */
+
+        .professional-preview {
+            padding: 25px;
+            border-top: 7px solid #1f2937;
+        }
+
+        .professional-preview .name {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .professional-preview .contact {
+            text-align: center;
+            font-size: 9px;
+            color: #666;
+            border-bottom: 2px solid #222;
+            padding-bottom: 12px;
+        }
+
+        .professional-preview .line {
+            height: 8px;
+            background: #ddd;
+            margin-top: 20px;
+            width: 75%;
+        }
+
+        .professional-preview .text {
+            height: 6px;
+            background: #eee;
+            margin-top: 8px;
+        }
+
+
+        /* MODERN PREVIEW */
+
+        .modern-preview {
+            display: grid;
+            grid-template-columns: 35% 65%;
+            height: 100%;
+        }
+
+        .modern-sidebar {
+            background: #172033;
+            padding: 20px;
+            color: white;
+        }
+
+        .modern-sidebar .name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .modern-sidebar .small {
+            height: 6px;
+            background: #64748b;
+            margin: 8px 0;
+        }
+
+        .modern-main {
+            padding: 25px;
+        }
+
+        .modern-main .heading {
+            height: 9px;
+            width: 55%;
+            background: #2563eb;
+            margin-bottom: 15px;
+        }
+
+        .modern-main .text {
+            height: 6px;
+            background: #e5e7eb;
+            margin: 8px 0;
+        }
+
+
+        /* MINIMAL PREVIEW */
+
+        .minimal-preview {
+            padding: 35px;
+        }
+
+        .minimal-preview .name {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .minimal-preview .contact {
+            color: #777;
+            font-size: 9px;
+            margin-bottom: 35px;
+        }
+
+        .minimal-preview .heading {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: #555;
+            margin-top: 25px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .minimal-preview .text {
+            height: 6px;
+            background: #eee;
+            margin-top: 8px;
+        }
+
+
+        .template-name {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .select-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .professional-button {
+            background: #1f2937;
+        }
+
+        .modern-button {
+            background: #2563eb;
+        }
+
+        .minimal-button {
+            background: #555;
+        }
+
+        .select-button:hover {
+            opacity: 0.85;
+        }
+
+        @media (max-width: 850px) {
+            .templates {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Choose Your Resume Template</h1>
+
+    <p class="subtitle">
+        Select a design for your AI-enhanced resume
+    </p>
+
+
+    <div class="templates">
+
+
+        <!-- =================================================
+             PROFESSIONAL
+        ================================================== -->
+
+        <div class="template-card">
+
+            <div class="template-preview professional-preview">
+
+                <div class="name">
+                    Professional Resume
+                </div>
+
+                <div class="contact">
+                    Email | Phone | LinkedIn
+                </div>
+
+                <div class="line"></div>
+
+                <div class="text"></div>
+                <div class="text"></div>
+
+                <div class="line"></div>
+
+                <div class="text"></div>
+                <div class="text"></div>
+                <div class="text"></div>
+
+                <div class="line"></div>
+
+                <div class="text"></div>
+                <div class="text"></div>
+
+            </div>
+
+            <div class="template-name">
+                Professional
+            </div>
+
+            <form action="/template-selection" method="POST">
+
+                <input
+                    type="hidden"
+                    name="template"
+                    value="professional"
+                >
+
+                <input
+                    type="hidden"
+                    name="sections_json"
+                    value='{{ enhanced_sections | tojson | forceescape }}'
+                >
+
+                <input
+                    type="hidden"
+                    name="original_text"
+                    value="{{ original_text }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_name"
+                    value="{{ resume_info.get("name", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_email"
+                    value="{{ resume_info.get("email", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_phone"
+                    value="{{ resume_info.get("phone", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_linkedin"
+                    value="{{ resume_info.get("linkedin", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_github"
+                    value="{{ resume_info.get("github", "") }}"
+                >
+
+                <button
+                    type="submit"
+                    class="select-button professional-button"
+                >
+                    Use Professional
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MODERN
+        ================================================== -->
+
+        <div class="template-card">
+
+            <div class="template-preview modern-preview">
+
+                <div class="modern-sidebar">
+
+                    <div class="name">
+                        Modern
+                    </div>
+
+                    <div class="small"></div>
+                    <div class="small"></div>
+                    <div class="small"></div>
+
+                    <div class="small"></div>
+                    <div class="small"></div>
+
+                </div>
+
+                <div class="modern-main">
+
+                    <div class="heading"></div>
+
+                    <div class="text"></div>
+                    <div class="text"></div>
+                    <div class="text"></div>
+
+                    <div class="heading"></div>
+
+                    <div class="text"></div>
+                    <div class="text"></div>
+                    <div class="text"></div>
+
+                    <div class="heading"></div>
+
+                    <div class="text"></div>
+                    <div class="text"></div>
+
+                </div>
+
+            </div>
+
+            <div class="template-name">
+                Modern
+            </div>
+
+            <form action="/template-selection" method="POST">
+
+                <input
+                    type="hidden"
+                    name="template"
+                    value="modern"
+                >
+
+                <input
+                    type="hidden"
+                    name="sections_json"
+                    value='{{ enhanced_sections | tojson | forceescape }}'
+                >
+
+                <input
+                    type="hidden"
+                    name="original_text"
+                    value="{{ original_text }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_name"
+                    value="{{ resume_info.get("name", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_email"
+                    value="{{ resume_info.get("email", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_phone"
+                    value="{{ resume_info.get("phone", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_linkedin"
+                    value="{{ resume_info.get("linkedin", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_github"
+                    value="{{ resume_info.get("github", "") }}"
+                >
+
+                <button
+                    type="submit"
+                    class="select-button modern-button"
+                >
+                    Use Modern
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MINIMAL
+        ================================================== -->
+
+        <div class="template-card">
+
+            <div class="template-preview minimal-preview">
+
+                <div class="name">
+                    Minimal
+                </div>
+
+                <div class="contact">
+                    Email · Phone · LinkedIn
+                </div>
+
+                <div class="heading">
+                    SUMMARY
+                </div>
+
+                <div class="text"></div>
+                <div class="text"></div>
+
+                <div class="heading">
+                    EDUCATION
+                </div>
+
+                <div class="text"></div>
+                <div class="text"></div>
+
+                <div class="heading">
+                    PROJECTS
+                </div>
+
+                <div class="text"></div>
+                <div class="text"></div>
+                <div class="text"></div>
+
+            </div>
+
+            <div class="template-name">
+                Minimal
+            </div>
+
+            <form action="/template-selection" method="POST">
+
+                <input
+                    type="hidden"
+                    name="template"
+                    value="minimal"
+                >
+
+                <input
+                    type="hidden"
+                    name="sections_json"
+                    value='{{ enhanced_sections | tojson | forceescape }}'
+                >
+
+                <input
+                    type="hidden"
+                    name="original_text"
+                    value="{{ original_text }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_name"
+                    value="{{ resume_info.get("name", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_email"
+                    value="{{ resume_info.get("email", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_phone"
+                    value="{{ resume_info.get("phone", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_linkedin"
+                    value="{{ resume_info.get("linkedin", "") }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="resume_github"
+                    value="{{ resume_info.get("github", "") }}"
+                >
+
+                <button
+                    type="submit"
+                    class="select-button minimal-button"
+                >
+                    Use Minimal
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

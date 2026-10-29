@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Enhanced Resume</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .top-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .top-title h1 {
+            margin-bottom: 8px;
+        }
+
+        .top-title p {
+            color: #666;
+        }
+
+        .resume {
+
+            background: white;
+            padding: 45px;
+            min-height: 900px;
+
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.08);
+
+        }
+
+
+        /* =========================
+           PROFESSIONAL
+        ========================= */
+
+        .professional {
+
+            border-top: 10px solid #222;
+
+        }
+
+        .professional .resume-name {
+
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+
+        }
+
+        .professional .resume-role {
+
+            text-align: center;
+            color: #666;
+            margin-top: 5px;
+
+        }
+
+
+        /* =========================
+           MODERN
+        ========================= */
+
+        .modern {
+
+            border-left: 10px solid #4f46e5;
+
+        }
+
+        .modern .resume-name {
+
+            font-size: 36px;
+            font-weight: bold;
+            color: #4f46e5;
+
+        }
+
+        .modern .resume-role {
+
+            color: #555;
+            margin-top: 5px;
+
+        }
+
+
+        /* =========================
+           MINIMAL
+        ========================= */
+
+        .minimal {
+
+            border-top: 2px solid #999;
+
+        }
+
+        .minimal .resume-name {
+
+            font-size: 30px;
+            font-weight: normal;
+
+        }
+
+        .minimal .resume-role {
+
+            color: #777;
+            margin-top: 5px;
+
+        }
+
+
+        .contact {
+
+            text-align: center;
+            color: #666;
+            margin: 15px 0 30px;
+
+        }
+
+
+        .resume-section {
+
+            margin-top: 25px;
+
+        }
+
+
+        .resume-section h2 {
+
+            font-size: 18px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+
+        }
+
+
+        .resume-content {
+
+            line-height: 1.7;
+            white-space: pre-line;
+
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .actions {
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 30px;
+
+        }
+
+        .actions form {
+
+            margin: 0;
+
+        }
+
+        .btn {
+
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+
+        }
+
+        .edit-btn {
+
+            background: #4f46e5;
+            color: white;
+
+        }
+
+        .template-btn {
+
+            background: #7c3aed;
+            color: white;
+
+        }
+
+        .word-btn {
+
+            background: #2563eb;
+            color: white;
+
+        }
+
+        .pdf-btn {
+
+            background: #dc2626;
+            color: white;
+
+        }
+
+        .home-btn {
+
+            background: #555;
+            color: white;
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .resume {
+
+                padding: 25px;
+
+            }
+
+            .actions {
+
+                flex-direction: column;
+
+            }
+
+            .actions .btn {
+
+                width: 100%;
+                text-align: center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <div class="top-title">
+
+        <h1>
+            ✨ AI Enhanced Resume
+        </h1>
+
+        <p>
+            Your resume has been enhanced and professionally formatted.
+        </p>
+
+    </div>
+
+
+    <div
+        class="resume {{ selected_template|default('professional') }}"
+    >
+
+
+        <div class="resume-name">
+
+            YOUR NAME
+
+        </div>
+
+
+        <div class="resume-role">
+
+            COMPUTER SCIENCE STUDENT
+
+        </div>
+
+
+        <div class="contact">
+
+            Email | Phone | LinkedIn | GitHub
+
+        </div>
+
+
+        {% if enhanced_sections %}
+
+            {% for title, content in enhanced_sections.items() %}
+
+                <div class="resume-section">
+
+                    <h2>
+                        {{ title }}
+                    </h2>
+
+                    <div class="resume-content">
+
+                        {{ content }}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="resume-section">
+
+                <h2>
+                    Summary
+                </h2>
+
+                <div class="resume-content">
+
+                    Motivated Computer Science student with a strong interest
+                    in software development and technology. Passionate about
+                    problem solving, learning new technologies, and building
+                    practical solutions.
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <div class="actions">
+
+
+        <!-- EDIT -->
+
+        <form
+            action="/edit"
+            method="POST"
+        >
+
+            {% for title, content in enhanced_sections.items() %}
+
+                <input
+                    type="hidden"
+                    name="title_{{ loop.index }}"
+                    value="{{ title }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="section_{{ loop.index }}"
+                    value="{{ content }}"
+                >
+
+            {% endfor %}
+
+            <button
+                type="submit"
+                class="btn edit-btn"
+            >
+                ✏️ Edit Resume
+            </button>
+
+        </form>
+
+
+        <!-- TEMPLATE SELECTION -->
+
+        <form
+            action="/template-selection"
+            method="POST"
+        >
+
+            <input
+                type="hidden"
+                name="original_text"
+                value="{{ original_text|default('') }}"
+            >
+
+            <input
+                type="hidden"
+                name="sections_json"
+                value='{{ enhanced_sections | tojson | e }}'
+            >
+
+            <button
+                type="submit"
+                class="btn template-btn"
+            >
+                🎨 Choose Resume Template
+            </button>
+
+        </form>
+
+
+        <!-- WORD -->
+
+        <form
+            action="/download-complete-word"
+            method="POST"
+        >
+
+            {% for title, content in enhanced_sections.items() %}
+
+                <input
+                    type="hidden"
+                    name="title_{{ loop.index }}"
+                    value="{{ title }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="section_{{ loop.index }}"
+                    value="{{ content }}"
+                >
+
+            {% endfor %}
+
+            <button
+                type="submit"
+                class="btn word-btn"
+            >
+                📝 Download Word Resume
+            </button>
+
+        </form>
+
+
+        <!-- PDF -->
+
+        <form
+            action="/download-complete-pdf"
+            method="POST"
+        >
+
+            {% for title, content in enhanced_sections.items() %}
+
+                <input
+                    type="hidden"
+                    name="title_{{ loop.index }}"
+                    value="{{ title }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="section_{{ loop.index }}"
+                    value="{{ content }}"
+                >
+
+            {% endfor %}
+
+            <button
+                type="submit"
+                class="btn pdf-btn"
+            >
+                📄 Download PDF Resume
+            </button>
+
+        </form>
+
+
+        <a
+            href="/"
+            class="btn home-btn"
+        >
+            ← Back to Home
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
